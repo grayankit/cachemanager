@@ -1,0 +1,15 @@
+{
+    "id": "cachemanager",
+    "name": "Cache Manager",
+    "description": "See what is using disk space and clean pacman, yay, and other caches",
+    "version": "0.1.0",
+    "author": "narayan",
+    "type": "widget",
+    "capabilities": ["control-center"],
+    "component": "./CacheManager.qml",
+    "settings": "./CacheManagerSettings.qml",
+    "startupCheck": "./StartupCheck.qml",
+    "icon": "cleaning_services",
+    "permissions": ["settings_read", "settings_write", "process"],
+    "requires_dms": ">=1.5.0"
+}

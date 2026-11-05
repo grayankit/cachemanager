@@ -1,0 +1,32 @@
+#!/bin/bash
+# Fixed root operations for cachemanager. No shell, no extra arguments.
+set -euo pipefail
+
+if [[ $# -lt 1 || $# -gt 2 ]]; then
+  echo "usage: cachemanager-priv pacman [0-3] | journal | coredumps" >&2
+  exit 2
+fi
+
+case "$1" in
+  pacman)
+    keep="${2:-2}"
+    case "$keep" in
+      0|1|2|3) ;;
+      *) echo "keep must be 0, 1, 2, or 3" >&2; exit 2 ;;
+    esac
+    /usr/bin/paccache -r -k "$keep"
+    /usr/bin/paccache -r -u -k 0
+    ;;
+  journal)
+    [[ $# -eq 1 ]] || { echo "journal takes no arguments" >&2; exit 2; }
+    /usr/bin/journalctl --vacuum-size=300M
+    ;;
+  coredumps)
+    [[ $# -eq 1 ]] || { echo "coredumps takes no arguments" >&2; exit 2; }
+    /usr/bin/find /var/lib/systemd/coredump -xdev -type f -mtime +7 -print -delete
+    ;;
+  *)
+    echo "unknown operation" >&2
+    exit 2
+    ;;
+esac
