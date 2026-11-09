@@ -1,5 +1,6 @@
 import QtQuick
 import QtCore
+import Quickshell
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -21,7 +22,7 @@ Item {
     property bool rootHelper: false
     property int scanGen: 0
 
-    readonly property string binPath: StandardPaths.writableLocation(StandardPaths.HomeLocation) + "/.local/bin/cachemanager"
+    readonly property string binPath: Quickshell.env("HOME") + "/.local/bin/cachemanager"
 
     implicitHeight: column.implicitHeight
     width: parent ? parent.width : 480
